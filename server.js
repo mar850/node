@@ -29,13 +29,13 @@ app.set('view engine', 'jade');
 app.set('views', __dirname + '/views');
 app.set('view options', { layout: false });
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'resources')));
 /**
 * Trasa domyœlna.
 */
 // funkcja do css wywołuje funkcje compile
 app.use(stylus.middleware(
-  { src: __dirname + 'public'
+  { src: __dirname + 'resources'
   , compile: compile
   }
 ))
