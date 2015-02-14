@@ -1,18 +1,17 @@
-
 var express = require('express');
 var mysql = require('mysql');
 var path = require('path');
 var stylus = require('stylus');
 
 var db = mysql.createClient({
-host: 'localhost'
-, database: 'projekt'
-, user: 'pwi'
-, password: '12345'
+host: 'mysql.hostinger.pl'
+, database: 'u585832689_proje'
+, user: 'u585832689_pwi'
+, password: 'aLaA8to7Zb'
 });
 
 // funkcja odczytująca css
-function compile (str, path) {
+function compile (str, path) { // Moduł stylus
     return stylus(str)
     .set('filename', path)
     .use(nib());
@@ -68,6 +67,7 @@ app.get('/new_task', function(req, res, next) {
 
 // post który ma za zadanie dodać produkt do bazy, funkcja do niego jest w trakcie implementacji
 app.post('/task', function(req, res, next) {
+	
   res.send('Dodanie produktu do bazy', { title: 'Express' });
 });
 
