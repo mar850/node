@@ -1,0 +1,44 @@
+doctype html
+html
+  head
+    title Panel Administracyjny
+    link(rel='stylesheet', href='/stylesheets/panel.css')
+    meta(name='viewport', content='width=device-width, initial-scale: 1.0, user-scalabe=0')
+    meta(http-equiv='Content-type', content='text/html; charset=ISO-8859-2')
+  body
+    #header
+      .logo
+        a(href="panel")
+          | Panel
+          span  Administracyjny
+    a.mobile(href='#') MENU
+    #container
+      .sidebar
+        ul#nav
+          li
+            a.selected(href='#') Wiadomości
+          li
+            a(href='#') Aktualne zadania
+          li
+            a(href='new_task') Dodaj zadanie
+          li
+            a(href='#') Historia zadań
+          li
+            a(href='#') Zadania w poczekalni
+          li
+            a(href='#') Szukaj
+      .content
+        h1 Wiadomości
+        #box
+          .box-top Wiadomośc od: Kzysztofa Bieruta
+          .box-panel
+            | Zadanie nr 350 zostało wykonane.
+        #box
+          .box-top Wiadomość od: Wiesława Szymczaka
+          .box-panel
+            | Awaria auta. Postój w warsztacie.
+        #box
+          .box-top Wiadomości od: Grzegorza Zapendowskiego
+          .box-panel
+            | Tankowanie auta.
+

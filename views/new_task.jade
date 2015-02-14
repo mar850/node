@@ -1,0 +1,84 @@
+doctype html
+html
+  head
+    title Panel Administracyjny
+    link(rel='stylesheet', href='/stylesheets/panel.css')
+    meta(name='viewport', content='width=device-width, initial-scale: 1.0, user-scalabe=0')
+    meta(http-equiv='Content-type', content='text/html; charset=ISO-8859-2')
+  body
+    #header
+      .logo
+        a(href='panel')
+          | Panel
+          span  Administracyjny
+    a.mobile(href='#') MENU
+    #container
+      .sidebar
+        ul#nav
+          li
+            a.selected(href='panel') Wiadomości
+          li
+            a(href='#') Aktualne zadania
+          li
+            a(href='new_task') Dodaj zadanie
+          li
+            a(href='#') Historia zadań
+          li
+            a(href='#') Zadania w poczekalni
+          li
+            a(href='#') Szukaj
+      .content
+        form#form_add_product(action='/task', enctype='multipart/form-data', name='form_add_product', method='post')
+          table(width='90%', border='0', cellspacing='0', cellpadding='6')
+            tr
+              td(width='20%') Nazwa czynności
+              td(width='80%')
+                label
+                  input#taks_name(name='task_name', type='text', size='64')
+            tr
+              td Nazwa klienta
+              td
+                input#client_name(name='client_name', type='text', size='64')
+            tr
+              td Nazwa kierowcy
+              td
+                input#driver_name(name='driver_name', type='text', size='12')
+            tr
+              td Kategoria
+              td
+                label
+                  select#category(name='category')
+                    option(value='rozładunek') rozładunek
+                    option(value='załadunek') załadunek
+                    option(value='tankowanie') tankowanie
+                    option(value='inne') inne
+            tr
+              td Data planowania
+              td
+                label
+                  input#date_planning(name='date_planning', type='date')
+            tr
+              td Data rozpoczęcia
+              td
+                input#date_start(name='date_start', type='date')
+            tr
+              td Data zakończenia
+              td
+                input#date_start(name='date_finish', type='date')
+            td Stan
+            td
+              label
+                select#stan(name='stan')
+                  option(value='roz³adunek') planowane
+                  option(value='za³adunek') poczekalnia
+            tr
+              td Opis
+              td
+                label
+                  textarea#details(name='details', cols='64', rows='5')
+            tr
+              td  
+              td
+                label
+                  input#button_add_task(type='submit', name='button_add_task', value='dodaj zadanie')
+
