@@ -4,10 +4,10 @@ var path = require('path');
 var stylus = require('stylus');
 
 var db = mysql.createClient({
-host: 'mysql.hostinger.pl'
-, database: 'u585832689_proje'
-, user: 'u585832689_pwi'
-, password: 'aLaA8to7Zb'
+host: 'localhost'
+, database: 'projekt'
+, user: 'root'
+, password: 'haslo'
 });
 
 // funkcja odczytująca css
@@ -40,8 +40,13 @@ app.use(stylus.middleware(
 ))
 
 app.get('/', function (req, res, next) {
+res.render('index');
+});
+
+//wyswietlenie listy aktualnych zadan
+app.get('/aktualneZadania', function (req, res, next) {
 db.query('SELECT * FROM czynnosci', function (err, results) {
-res.render('index', { items: results });
+res.render('aktualneZadania', { title: 'Express', items: results });
 });
 });
 
