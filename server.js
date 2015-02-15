@@ -71,21 +71,13 @@ app.get('/new_task', function(req, res, next) {
 });
 
 // post który ma za zadanie dodać produkt do bazy, funkcja do niego jest w trakcie implementacji
-app.post('/task', function(req, res, next) {
-	
-  res.send('Dodanie produktu do bazy', { title: 'Express' });
-});
 
-
-/**
-* Trasa dodania zadania.
-*/
-app.post('/create', function (req, res, next) {
+app.post('/new_task', function (req, res, next) {
 db.query('INSERT INTO czynnosci SET idklienta = ?, idkierowcy = ?, idkategori = ?, data_planowana = ?, data_rozpoczecia = ?, data_zakonczenia = ?, stan = ?, opis = ?',
-[req.body.idklienta, req.body.idkierowcy, req.params.idkategori,  req.params.data_planowana, req.params.data_rozpoczecia, req.params.zakonczenia, req.body.stan, req.body.opis], function (err, info) {
+[req.body.idklienta, req.params.idkierowcy, req.params.idkategori,  req.params.data_planowana, req.params.data_rozpoczecia, req.params.zakonczenia, req.body.stan, req.body.opis], function (err, info) {
 if (err) return next(err);
 console.log(' – produkt dodany z id %s', info.insertId);
-res.redirect('/');
+res.redirect('/aktualneZadania');
 });
 });
 
