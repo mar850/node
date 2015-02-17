@@ -3,6 +3,7 @@ var mysql = require('mysql');
 var path = require('path');
 var stylus = require('stylus');
 
+
 var db = mysql.createClient({
 host: 'localhost'
 , database: 'projekt'
@@ -91,11 +92,24 @@ res.redirect('/aktualneZadania');
 
 
 
-
-
 /**
 * Nas³uchuj.
 */
 app.listen(3000, function () {
 console.log(' – nasluchuje na http://*:3000');
 });
+
+
+/**
+* Kod odpowiedzialny za websocket do komunikacji z Androidem.
+* Przyszłościowo należałoby umieścić go w osobnym pliku.
+* See: http://stackoverflow.com/questions/25223189/android-app-connecting-to-node-js-server-using-socket-io
+*/
+var io = require('socket.io').listen(app);
+io.sockets.on('connection', function(client){
+    client.on('message', function(err, msg){
+        client.broadcast.emit('message', msg);
+    });
+ });
+
+
