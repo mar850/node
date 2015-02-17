@@ -38,11 +38,18 @@ html
             tr
               td Nazwa klienta
               td
-                input#client_name(name='client_name', type='text', size='64')
+                select#idklienta(name='idklienta')
+                    if (items.length)
+                        each klienci in items
+                            option(value=klienci.idklienta) #{klienci.imie}
             tr
               td Nazwa kierowcy
               td
-                input#driver_name(name='driver_name', type='text', size='12')
+                select#idkierowcy(name='idkierowcy')
+                    if (items.length)
+                        each kierowcy in items
+                            option(value=kierowcy.idkierowcy) #{kierowcy.imie}
+                   
             tr
               td Kategoria
               td
@@ -75,7 +82,7 @@ html
               td Opis
               td
                 label
-                  textarea#details(name='details', cols='64', rows='5')
+                  textarea#opis(name='opis', cols='64', rows='5')
             tr
               td  
               td
