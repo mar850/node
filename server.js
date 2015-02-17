@@ -7,7 +7,7 @@ var db = mysql.createClient({
 host: 'localhost'
 , database: 'projekt'
 , user: 'root'
-, password: 'haslo'
+, password: 'haslohaslo'
 });
 
 // funkcja odczytująca css

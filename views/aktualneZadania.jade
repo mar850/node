@@ -16,26 +16,25 @@ html
       .sidebar
         ul#nav
           li
-            a.selected(href='panel') WiadomoÅ›ci
+            a.selected(href='panel') Wiadomo¶ci
           li
             a(href='aktualneZadania') Aktualne zadania
           li
             a(href='new_task') Dodaj zadanie
           li
-            a(href='#') Historia zadaÅ„
+            a(href='#') Historia zadañ
           li
             a(href='#') Zadania w poczekalni
           li
             a(href='#') Szukaj
       .content
         h1 Zadania
-          if (items.length)
-              each czynnosci in items
-                table
-                  tr
-                    td: p: = czynnosci.idczynnosci 
-                    td: p: = czynnosci.idkierowcy
-                    td: p: = czynnosci.stan
-                    td: p: = czynnosci.opis
-          else
-            p Brak produktów do wyœwietlenia
+        if (items.length)
+          each czynnosci in items
+            #box
+              .box-top Zadanie kierowcy: #{czynnosci.idkierowcy}
+              .box-panel
+                h3 <strong>Stan:</strong> #{czynnosci.stan} <br /><br />
+                | <strong>Opis:</strong> #{czynnosci.opis}
+        else
+          p Brak zadañ do wyœwietlenia
