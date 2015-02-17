@@ -45,7 +45,7 @@ res.render('index');
 
 //wyswietlenie listy aktualnych zadan
 app.get('/aktualneZadania', function (req, res, next) {
-db.query('SELECT * FROM czynnosci', function (err, results) {
+db.query('SELECT * FROM czynnosci INNER JOIN kierowcy ON czynnosci.idkierowcy=kierowcy.idkierowcy', function (err, results) {
 res.render('aktualneZadania', { title: 'Express', items: results });
 });
 });
