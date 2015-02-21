@@ -27,6 +27,7 @@ app = express.createServer();
 app.use(express.bodyParser()); // przetwarzanie formularza
 app.use(express.cookieParser()); 
 app.use(express.session({ secret: 'zmienna' })); //obs³uga sesjii 
+
 /**
 * kofiguracja aplikacji aplikacjê.
 */
@@ -138,9 +139,47 @@ wsServer.on('request', function(request) {
     console.log((new Date()) + ' Connection accepted.');
     connection.on('message', function(message) {
         if (message.type === 'utf8') {
-            console.log('przygotowanie do wywylania wiadomosci')
-            console.log('Received Message: ' + message.utf8Data);
-            connection.sendUTF(message.utf8Data);
+        	console.log('Otrzymana wiadomość: ' + message.utf8Data);
+            var odebrany_json = JSON.parse(message.utf8Data);
+            
+            switch (odebrany_json.task) {
+            case 'log_me_in':
+            	db.query('SELECT idkierowcy FROM admin WHERE login = ?',[odebrany_json.variables.login], function (err, result) {
+				if (err) {
+					console.log('Błąd zapytania do bazy danych: ' + err);
+					connection.sendUTF("Wystąpił błąd w zapytaniu do bazy danych.")
+					}
+				else if (JSON.stringify(result) === '[]') {
+					console.log('Autoryzacja uzytkownika o loginie ' + odebrany_json.variables.login + ' nie udała się.');
+					connection.sendUTF("Błędne dane do logowania.");
+					}
+					else {
+					console.log('Zalogowano kierowcę. Wysyłam kierowcy jego id');
+					connection.sendUTF(JSON.stringify(result));
+					}					
+				});
+				break;
+			case 'show_my_task_history':
+				db.query('SELECT * FROM czynnosci WHERE idkierowcy = ?',[odebrany_json.variables.idkierowcy], function (err, result) {
+				if (err) {
+					console.log('Błąd zapytania do bazy danych: ' + err);
+					connection.sendUTF("Wystąpił błąd w zapytaniu do bazy danych.")
+					}
+				else if (JSON.stringify(result) === '[]') {
+					console.log('Nie znaleziono zadan przypisanych do kierowcy o loginie ' + odebrany_json.variables.login);
+					connection.sendUTF("Nie znaleziono żadnych zadań");
+					}
+					else {
+					console.log('Wysłano zadania kierowcy o id:', odebrany_json.variables.idkierowcy);
+					connection.sendUTF(JSON.stringify(result));
+					}					
+				});
+				break;
+				
+			default:
+				console.log("Otrzymano nieznany komunikat:", odebrany_json.task);
+				connection.sendUTF("Nieznany komunikat", odebrany_json.task);
+            }
         }
         else if (message.type === 'binary') {
 
