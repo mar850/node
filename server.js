@@ -115,6 +115,15 @@ res.redirect('/kategorie');
 });
 });
 
+app.post('/usuwanie', function (req, res, next) {
+db.query('DELETE FROM kategorie WHERE idkat = ?',
+[req.body.nazwakat], function (err, info) {
+if (err) return next(err);
+console.log(' – kategoria usunieta z id %s', info.insertId);
+res.redirect('/kategorie');
+});
+});
+
 app.get('/klienci', function(req, res, next) {
   db.query('SELECT * FROM klienci', function (err, results) {
 res.render('klienci', { title: 'Express', items: results });
