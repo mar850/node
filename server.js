@@ -79,6 +79,7 @@ app.get('/panel', function(req, res, next) {
 app.get('/new_task', function(req, res, next) {
   db.query('SELECT * FROM klienci, kierowcy', function (err, results) {
 res.render('new_task', { title: 'Express', items: results });
+console.log(JSON.stringify(results));
 });
 
 
