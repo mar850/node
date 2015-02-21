@@ -117,7 +117,7 @@ res.redirect('/kategorie');
 
 app.post('/usuwanie', function (req, res, next) {
 db.query('DELETE FROM kategorie WHERE idkat = ?',
-[req.body.nazwakat], function (err, info) {
+[req.params.idkat], function (err, info) {
 if (err) return next(err);
 console.log(' – kategoria usunieta z id %s', info.insertId);
 res.redirect('/kategorie');
