@@ -189,13 +189,13 @@ wsServer.on('request', function(request) {
             
             switch (odebrany_json.task) {
             case 'log_me_in':
-            	db.query('SELECT idkierowcy FROM admin WHERE login = ?',[odebrany_json.variables.login], function (err, result) {
+            	db.query('SELECT idkierowcy FROM admin WHERE login = ?',[odebrany_json.login], function (err, result) {
 				if (err) {
 					console.log('Błąd zapytania do bazy danych: ' + err);
 					connection.sendUTF("Wystąpił błąd w zapytaniu do bazy danych.")
 					}
 				else if (JSON.stringify(result) === '[]') {
-					console.log('Autoryzacja uzytkownika o loginie ' + odebrany_json.variables.login + ' nie udała się.');
+					console.log('Autoryzacja uzytkownika o loginie ' + odebrany_json.login + ' nie udała się.');
 					connection.sendUTF("Błędne dane do logowania.");
 					}
 					else {
@@ -205,17 +205,17 @@ wsServer.on('request', function(request) {
 				});
 				break;
 			case 'show_my_task_history':
-				db.query('SELECT * FROM czynnosci WHERE idkierowcy = ?',[odebrany_json.variables.idkierowcy], function (err, result) {
+				db.query('SELECT * FROM czynnosci WHERE idkierowcy = ?',[odebrany_json.idkierowcy], function (err, result) {
 				if (err) {
 					console.log('Błąd zapytania do bazy danych: ' + err);
 					connection.sendUTF("Wystąpił błąd w zapytaniu do bazy danych.")
 					}
 				else if (JSON.stringify(result) === '[]') {
-					console.log('Nie znaleziono zadan przypisanych do kierowcy o loginie ' + odebrany_json.variables.login);
+					console.log('Nie znaleziono zadan przypisanych do kierowcy o loginie ' + odebrany_json.login);
 					connection.sendUTF("Nie znaleziono żadnych zadań");
 					}
 					else {
-					console.log('Wysłano zadania kierowcy o id:', odebrany_json.variables.idkierowcy);
+					console.log('Wysłano zadania kierowcy o id:', odebrany_json.idkierowcy);
 					connection.sendUTF(JSON.stringify(result));
 					}					
 				});
