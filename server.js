@@ -10,10 +10,10 @@ var WebSocketServer = require('websocket').server;
 
 
 var db = mysql.createClient({
-host: 'localhost'
-, database: 'projekt'
-, user: 'root'
-, password: 'haslohaslo'
+host: 'sql3.freemysqlhosting.net'
+, database: 'sql368239'
+, user: 'sql368239'
+, password: 'sW9!vE2*'
 });
 
 // funkcja odczytująca css
@@ -79,6 +79,7 @@ app.get('/panel', function(req, res, next) {
 app.get('/new_task', function(req, res, next) {
   db.query('SELECT * FROM klienci, kierowcy', function (err, results) {
 res.render('new_task', { title: 'Express', items: results });
+
 console.log(JSON.stringify(results));
 });
 
