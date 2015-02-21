@@ -48,9 +48,9 @@ html
             if (items.length)
             each kategorie in items
               #box
-                .box-top Zadanie kierowcy: #{kategorie.idkat}
+                .box-top Kategoria: #{kategorie.idkat}
                 .box-panel
-                  h3 <strong>Stan:</strong> #{kategorie.nazwakat} <br /><br />
+                  h3 #{kategorie.nazwakat} <br />
                   | 
             else
               p Brak zadañ do wyœwietlenia

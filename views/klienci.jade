@@ -76,10 +76,13 @@ html
             if (items.length)
             each klienci in items
               #box
-                .box-top Zadanie kierowcy: #{klienci.idklienta}
+                .box-top Klient: #{klienci.idklienta}
                 .box-panel
-                  h3 <strong>Stan:</strong> #{klienci.imie} <br /><br />
-                  | 
+                  h3 <strong></strong> #{klienci.imie} #{klienci.nazwisko} <br />
+                  h3 <strong></strong> #{klienci.firma}<br />
+                  h3 <strong></strong> #{klienci.adres}<br />
+                  h3 <strong></strong> #{klienci.kod_poczt} #{klienci.miasto} <br />
+                  h3 <strong></strong> Województwo #{klienci.wojew}, #{klienci.kraj} <br />
             else
               p Brak zadañ do wyœwietlenia
 
