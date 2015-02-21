@@ -90,7 +90,6 @@ console.log(JSON.stringify(results));
 // post który ma za zadanie dodać produkt do bazy, funkcja do niego jest w trakcie implementacji
 
 app.post('/new_task', function (req, res, next) {
-  
 db.query('INSERT INTO czynnosci SET idklienta = ?, idkierowcy = ?, idkategori = ?, data_planowana = ?, data_rozpoczecia = ?, data_zakonczenia = ?, stan = ?, opis = ?',
 [req.body.idklienta, req.body.idkierowcy, req.body.idkategori, req.body.data_planowana, req.body.data_rozpoczecia, req.body.data_zakonczenia, req.body.stan, req.body.opis], function (err, info) {
 if (err) return next(err);
