@@ -94,12 +94,58 @@ app.post('/new_task', function (req, res, next) {
 db.query('INSERT INTO czynnosci SET idklienta = ?, idkierowcy = ?, idkategori = ?, data_planowana = ?, data_rozpoczecia = ?, data_zakonczenia = ?, stan = ?, opis = ?',
 [req.body.idklienta, req.body.idkierowcy, req.body.idkategori, req.body.data_planowana, req.body.data_rozpoczecia, req.body.data_zakonczenia, req.body.stan, req.body.opis], function (err, info) {
 if (err) return next(err);
-console.log(' – produkt dodany z id %s', info.insertId);
+console.log(' – zadanie dodane z id %s', info.insertId);
 res.redirect('/aktualneZadania');
 });
 });
 
+app.get('/kategorie', function(req, res, next) {
+  db.query('SELECT * FROM kategorie', function (err, results) {
+res.render('kategorie', { title: 'Express', items: results });
 
+});
+});
+
+app.post('/kategorie', function (req, res, next) {
+db.query('INSERT INTO kategorie SET nazwakat = ?',
+[req.body.nazwakat], function (err, info) {
+if (err) return next(err);
+console.log(' – kategoria dodana z id %s', info.insertId);
+res.redirect('/kategorie');
+});
+});
+
+app.get('/klienci', function(req, res, next) {
+  db.query('SELECT * FROM klienci', function (err, results) {
+res.render('klienci', { title: 'Express', items: results });
+
+});
+});
+
+app.post('/klienci', function (req, res, next) {
+db.query('INSERT INTO klienci SET imie = ?, nazwisko = ?, firma = ?, adres = ?, miasto = ?, wojew = ?, kod_poczt = ?, kraj = ?',
+[req.body.imie, req.body.nazwisko, req.body.firma, req.body.adres, req.body.miasto, req.body.wojew, req.body.kod_poczt, req.body.kraj ], function (err, info) {
+if (err) return next(err);
+console.log(' – kategoria dodana z id %s', info.insertId);
+res.redirect('/klienci');
+});
+});
+
+app.get('/kierowcy', function(req, res, next) {
+  db.query('SELECT * FROM kierowcy', function (err, results) {
+res.render('kierowcy', { title: 'Express', items: results });
+
+});
+});
+
+app.post('/kierowcy', function (req, res, next) {
+db.query('INSERT INTO kierowcy SET imie = ?, nazwisko = ?, adres = ?, miasto = ?, wojew = ?, kod_poczt = ?, kraj = ?',
+[req.body.imie, req.body.nazwisko, req.body.adres, req.body.miasto, req.body.wojew, req.body.kod_poczt, req.body.kraj ], function (err, info) {
+if (err) return next(err);
+console.log(' – kierowca dodany z id %s', info.insertId);
+res.redirect('/kierowcy');
+});
+});
 
 /**
 * Nas³uchuj.

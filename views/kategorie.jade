@@ -34,59 +34,23 @@ html
           li
             a(href='#') Szukaj
       .content
-        form#form_add_product(action='/new_task', enctype='multipart/form-data', name='form_add_product', method='post')
-          table(width='90%', border='0', cellspacing='0', cellpadding='6')
+        form#form_add_product(action='/kategorie', enctype='multipart/form-data', name='form_add_product', method='post')
+          table(width='50%', border='0', cellspacing='0', cellpadding='6')
             tr
-              td Nazwa klienta
+              td Nazwa kategorii:
+              td 
+                input#nazwakat(name='nazwakat', type='text')
+            tr
               td
-                select#idklienta(name='idklienta')
-                    if (items.length)
-                        each klienci in items
-                            option(value=klienci.idklienta) #{klienci.firma}
-            tr
-              td Nazwa kierowcy
-              td
-                select#idkierowcy(name='idkierowcy')
-                    if (items.length)
-                        each kierowcy in items
-                            option(value=kierowcy.idkierowcy) #{kierowcy.imie} #{kierowcy.nazwisko}
-                   
-            tr
-              td Kategoria
               td
                 label
-                  select#category(name='idkategori')
-                    option(value='1') rozładunek
-                    option(value='2') załadunek
-                    option(value='3') tankowanie
-                    option(value='4') inne
-            tr
-              td Data planowania
-              td
-                label
-                  input#data_planowania(name='data_planowana', type='date')
-            tr
-              td Data rozpoczęcia
-              td
-                input#data_rozpoczecia(name='data_rozpoczecia', type='date')
-            tr
-              td Data zakończenia
-              td
-                input#data_zakonczenia(name='data_zakonczenia', type='date')
-            td Stan
-            td
-              label
-                select#stan(name='stan')
-                  option(value='planowane') planowane
-                  option(value='poczekalnia') poczekalnia
-            tr
-              td Opis
-              td
-                label
-                  textarea#opis(name='opis', cols='64', rows='5')
-            tr
-              td  
-              td
-                label
-                  input#button_add_task(type='submit', name='button_add_task', value='dodaj zadanie')
-
+                  input#button_add_task(type='submit', name='button_add_task', value='dodaj kategorie')
+            if (items.length)
+            each kategorie in items
+              #box
+                .box-top Zadanie kierowcy: #{kategorie.idkat}
+                .box-panel
+                  h3 <strong>Stan:</strong> #{kategorie.nazwakat} <br /><br />
+                  | 
+            else
+              p Brak zada� do wy�wietlenia
