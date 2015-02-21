@@ -30,7 +30,13 @@ client.on('connect', function(connection) {
             setTimeout(sendNumber, 1000);
         }
     }
-    sendNumber();
+    function sendJSON() {
+    	if (connection.connected) {
+    		connection.sendUTF('{"task":"show_my_task_history","variables":{"idkierowcy":"1"}}');
+    		setTimeout(sendJSON, 1000);
+    	}
+    }
+    sendJSON();
 });
  
 client.connect('ws://localhost:3000/');
