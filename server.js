@@ -194,17 +194,17 @@ wsServer.on('request', function(request) {
     connection.on('message', function(message) {
         if (message.type === 'utf8') {
         	console.log('Otrzymana wiadomość: ' + message.utf8Data);
-            var odebrany_json = JSON.parse(message.utf8Data);
+            var messageJSON = JSON.parse(message.utf8Data);
             
-            switch (odebrany_json.task) {
+            switch (messageJSON.task) {
             case 'log_me_in':
-            	db.query('SELECT idkierowcy FROM admin WHERE login = ?',[odebrany_json.variables.login], function (err, result) {
+            	db.query('SELECT idkierowcy FROM admin WHERE login = ?',[messageJSON.login], function (err, result) {
 				if (err) {
 					console.log('Błąd zapytania do bazy danych: ' + err);
 					connection.sendUTF("Wystąpił błąd w zapytaniu do bazy danych.")
 					}
 				else if (JSON.stringify(result) === '[]') {
-					console.log('Autoryzacja uzytkownika o loginie ' + odebrany_json.variables.login + ' nie udała się.');
+					console.log('Autoryzacja uzytkownika o loginie ' + messageJSON.login + ' nie udała się.');
 					connection.sendUTF("Błędne dane do logowania.");
 					}
 					else {
@@ -213,26 +213,67 @@ wsServer.on('request', function(request) {
 					}					
 				});
 				break;
-			case 'show_my_task_history':
-				db.query('SELECT * FROM czynnosci WHERE idkierowcy = ?',[odebrany_json.variables.idkierowcy], function (err, result) {
-				if (err) {
-					console.log('Błąd zapytania do bazy danych: ' + err);
-					connection.sendUTF("Wystąpił błąd w zapytaniu do bazy danych.")
-					}
-				else if (JSON.stringify(result) === '[]') {
-					console.log('Nie znaleziono zadan przypisanych do kierowcy o loginie ' + odebrany_json.variables.login);
-					connection.sendUTF("Nie znaleziono żadnych zadań");
-					}
-					else {
-					console.log('Wysłano zadania kierowcy o id:', odebrany_json.variables.idkierowcy);
-					connection.sendUTF(JSON.stringify(result));
-					}					
-				});
+			case 'show_task': //id zadania, nazwa klienta
+				switch (messageJSON.state) {
+					case 'actual':
+						db.query('SELECT idczynnosci,firma,data_rozpoczecia,opis FROM czynnosci INNER JOIN klienci ON czynnosci.idklienta=klienci.idklienta WHERE idkierowcy = ? AND data_zakonczenia IS NULL',
+						[messageJSON.idkierowcy], function (err, result) {
+						if (err) {
+							console.log('Błąd zapytania do bazy danych: ' + err);
+							connection.sendUTF("Wystąpił błąd w zapytaniu do bazy danych. Poinformuj proszę o tym administratora.")
+							}
+						else if (JSON.stringify(result) === '[]') {
+							console.log('Nie znaleziono aktualnych zadan przypisanych do kierowcy o id ' + messageJSON.idkierowcy);
+							connection.sendUTF("Brak aktualnych zadań");
+							}
+							else {
+							console.log('Wysłano aktualne zadania kierowcy o id:', messageJSON.idkierowcy);
+							connection.sendUTF(JSON.stringify(result));
+							}					
+						});
+						break;
+						
+					case 'planning':
+						db.query('SELECT idczynnosci,firma,data_planowana,opis FROM czynnosci INNER JOIN klienci ON czynnosci.idklienta=klienci.idklienta WHERE idkierowcy = ? AND data_planowana > CURDATE()',
+						[messageJSON.idkierowcy], function (err, result) {
+						if (err) {
+							console.log('Błąd zapytania do bazy danych: ' + err);
+							connection.sendUTF("Wystąpił błąd w zapytaniu do bazy danych. Poinformuj proszę o tym administratora.")
+							}
+						else if (JSON.stringify(result) === '[]') {
+							console.log('Nie znaleziono planowanych zadan przypisanych do kierowcy o id ' + messageJSON.idkierowcy);
+							connection.sendUTF("Brak planowanych zadań");
+							}
+							else {
+							console.log('Wysłano planowane zadania kierowcy o id:', messageJSON.idkierowcy);
+							connection.sendUTF(JSON.stringify(result));
+							}					
+						});
+						break;
+						
+					case 'finished':
+						db.query('SELECT idczynnosci,firma,data_rozpoczecia,data_zakonczenia,opis FROM czynnosci INNER JOIN klienci ON czynnosci.idklienta=klienci.idklienta WHERE idkierowcy = ? AND data_zakonczenia IS NOT NULL',
+						[messageJSON.idkierowcy], function (err, result) {
+						if (err) {
+							console.log('Błąd zapytania do bazy danych: ' + err);
+							connection.sendUTF("Wystąpił błąd w zapytaniu do bazy danych. Poinformuj proszę o tym administratora.")
+							}
+						else if (JSON.stringify(result) === '[]') {
+							console.log('Nie znaleziono zakończonych zadan przypisanych do kierowcy o id ' + messageJSON.idkierowcy);
+							connection.sendUTF("Brak zakończonych zadań");
+							}
+							else {
+							console.log('Wysłano zakończone zadania kierowcy o id:', messageJSON.idkierowcy);
+							connection.sendUTF(JSON.stringify(result));
+							}					
+						});
+						break;
+				}
 				break;
 				
 			default:
-				console.log("Otrzymano nieznany komunikat:", odebrany_json.task);
-				connection.sendUTF("Nieznany komunikat", odebrany_json.task);
+				console.log("Otrzymano nieznany komunikat:", messageJSON.task);
+				connection.sendUTF("Nieznany komunikat", messageJSON.task);
             }
         }
         else if (message.type === 'binary') {

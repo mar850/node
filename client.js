@@ -32,7 +32,7 @@ client.on('connect', function(connection) {
     }
     function sendJSON() {
     	if (connection.connected) {
-    		connection.sendUTF('{"task":"show_my_task_history","variables":{"idkierowcy":"1"}}');
+    		connection.sendUTF('{"task":"show_task","state":"finished","idkierowcy":"1"}');
     		setTimeout(sendJSON, 1000);
     	}
     }
