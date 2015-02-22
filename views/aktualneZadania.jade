@@ -42,5 +42,7 @@ html
               .box-panel
                 h3 <strong>Stan:</strong> #{czynnosci.stan} <br /><br />
                 | <strong>Opis:</strong> #{czynnosci.opis}
+                form#form_del_klient(action='/usuwanieZadania/#{czynnosci.idczynnosci}', enctype='multipart/form-data', name='form_del_klient', method='post')
+                    input#button_del_klient(type='submit', name='button_del_klient', value='usuñ')
         else
           p Brak zadañ do wyœwietlenia

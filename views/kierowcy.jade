@@ -69,14 +69,16 @@ html
               td
                 label
                   input#button_add_task(type='submit', name='button_add_task', value='dodaj kierowcê')
-            if (items.length)
-            each kierowcy in items
-              #box
-                .box-top Kierowca: #{kierowcy.idkierowcy}
-                .box-panel
-                  h3 #{kierowcy.imie} #{kierowcy.nazwisko} <br />
-                  h3 #{kierowcy.adres}<br />
-                  h3 #{kierowcy.kod_poczt} #{kierowcy.miasto} <br />
-                  h3 Województwo #{kierowcy.wojew}, #{kierowcy.kraj} <br />
-            else
-              p Brak zadañ do wyœwietlenia
+          if (items.length)
+          each kierowcy in items
+            #box
+              .box-top Kierowca: #{kierowcy.idkierowcy}
+              .box-panel
+                h3 #{kierowcy.imie} #{kierowcy.nazwisko} <br />
+                h3 #{kierowcy.adres}<br />
+                h3 #{kierowcy.kod_poczt} #{kierowcy.miasto} <br />
+                h3 Województwo #{kierowcy.wojew}, #{kierowcy.kraj} <br />
+                  form#form_del_kierowcy(action='/usuwanieKierowcy/#{kierowcy.idkierowcy}', enctype='multipart/form-data', name='form_del_kierowcy', method='post')
+                    input#button_del_kierowcy(type='submit', name='button_del_kierowcy', value='usuñ')
+          else
+            p Brak zadañ do wyœwietlenia

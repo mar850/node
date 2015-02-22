@@ -99,6 +99,17 @@ res.redirect('/aktualneZadania');
 });
 });
 
+app.post('/usuwanieZadania/:idczynnosci', function (req, res, next) {
+db.query('DELETE FROM czynnosci WHERE idczynnosci = ?',
+[req.params.idczynnosci], function (err, info) {
+if (err) return next(err);
+console.log(' – czynnosc usunieta z id %s', info.insertId);
+res.redirect('/aktualneZadania');
+});
+});
+
+
+
 app.get('/kategorie', function(req, res, next) {
   db.query('SELECT * FROM kategorie', function (err, results) {
 res.render('kategorie', { title: 'Express', items: results });
@@ -167,6 +178,14 @@ res.redirect('/kierowcy');
 });
 });
 
+app.post('/usuwanieKierowcy/:idkierowcy', function (req, res, next) {
+db.query('DELETE FROM kierowcy WHERE idkierowcy = ?',
+[req.params.idkierowcy], function (err, info) {
+if (err) return next(err);
+console.log(' – kierowca usuniety z id %s', info.insertId);
+res.redirect('/kierowcy');
+});
+});
 /**
 * Nas³uchuj.
 */
