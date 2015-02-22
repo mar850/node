@@ -257,8 +257,8 @@ wsServer.on('request', function(request) {
 				sentJSON.task = 'show_task';
 				switch (receivedJSON.state) {
 					case 'actual':
-						sentJSON.state = 'actual';
-						db.query('SELECT idczynnosci,firma,data_rozpoczecia,opis FROM czynnosci INNER JOIN klienci ON czynnosci.idklienta=klienci.idklienta WHERE idkierowcy = ? AND data_zakonczenia IS NULL',
+						sentJSON.state = 'actual'; //nazwa zadania, adresy
+						db.query('SELECT idczynnosci,firma,data_rozpoczecia,,adres,miasto,opis FROM czynnosci INNER JOIN klienci ON czynnosci.idklienta=klienci.idklienta WHERE idkierowcy = ? AND data_zakonczenia IS NULL',
 						[receivedJSON.idkierowcy], function (err, result) {
 						if (err) {
 							console.log('Błąd zapytania do bazy danych: ' + err);
@@ -287,7 +287,7 @@ wsServer.on('request', function(request) {
 						
 					case 'planning':
 						sentJSON.state = 'planning';
-						db.query('SELECT idczynnosci,firma,data_planowana,opis FROM czynnosci INNER JOIN klienci ON czynnosci.idklienta=klienci.idklienta WHERE idkierowcy = ? AND data_planowana > CURDATE()',
+						db.query('SELECT idczynnosci,firma,data_planowana,adres,miasto,opis FROM czynnosci INNER JOIN klienci ON czynnosci.idklienta=klienci.idklienta WHERE idkierowcy = ? AND data_planowana > CURDATE()',
 						[receivedJSON.idkierowcy], function (err, result) {
 						if (err) {
 							console.log('Błąd zapytania do bazy danych: ' + err);
@@ -316,7 +316,7 @@ wsServer.on('request', function(request) {
 						
 					case 'finished':
 						sentJSON.state = 'finished';
-						db.query('SELECT idczynnosci,firma,data_rozpoczecia,data_zakonczenia,opis FROM czynnosci INNER JOIN klienci ON czynnosci.idklienta=klienci.idklienta WHERE idkierowcy = ? AND data_zakonczenia IS NOT NULL',
+						db.query('SELECT idczynnosci,firma,data_rozpoczecia,data_zakonczenia,adres,miasto,opis FROM czynnosci INNER JOIN klienci ON czynnosci.idklienta=klienci.idklienta WHERE idkierowcy = ? AND data_zakonczenia IS NOT NULL',
 						[receivedJSON.idkierowcy], function (err, result) {
 						if (err) {
 							console.log('Błąd zapytania do bazy danych: ' + err);
