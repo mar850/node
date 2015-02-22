@@ -5,10 +5,10 @@ block content
  p Logowanie do Panelu Administracyjnego
 
  div#login_panel
-  form(method="POST", action="/index")
-   label="Login"
-    input(type="text", id="login" name="login")
-   label="Hasło" 
-    input(type="password", id="password" name="password")
-   div#lower
-    input(type="submit", value="Login")
+   form#form_add_product(action='/index', enctype='multipart/form-data', name='form_add_product', method='post')
+     label="Login"
+       input#login(type="text", name="login")
+     label="Hasło" 
+       input(type="password", name="password")
+     div#lower
+       input#zaloguj(type="submit", name="zaloguj", value="Login")

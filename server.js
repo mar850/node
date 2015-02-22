@@ -68,9 +68,23 @@ res.render('login');
 // przesylamy dane i sprawdzamy czy urzytkownik ktora chce sie zalogować jest w naszej bazie danych
 // funkcja sesji i sprawdzania urzytkownika w trakcie implementacji
 app.post('/index', function(req, res, next) {
-  res.render('panel', { title: 'Panel Administratora'});
+   db.query('SELECT cout(*) FROM admin WHERE login = ?, haslo = ?',
+[req.body.login, req.body.haslo], function (err, results) {
+if (err) {
+					console.log('Błąd zapytania do bazy danych: ' + err);
+					connection.sendUTF("Wystąpił błąd w zapytaniu do bazy danych.")
+					}
+				else if (results === '[]') {
+					console.log('Autoryzacja uzytkownika o loginie ' + messageJSON.login + ' nie udała się.');
+					connection.sendUTF("Błędne dane do logowania.");
+					}
+					else {
+					console.log('Zalogowano kierowcę. Wysyłam kierowcy jego id');
+					var send = result;
+					send.push({'task':'log_me_in'});
+					connection.sendUTF(JSON.stringify(send));
+					}
 });
-
 // zwracanie strony z panelem administratora
 app.get('/panel', function(req, res, next) {
   res.render('panel', { title: 'Express' });
@@ -91,8 +105,8 @@ console.log(JSON.stringify(results));
 // post który ma za zadanie dodać produkt do bazy, funkcja do niego jest w trakcie implementacji
 
 app.post('/new_task', function (req, res, next) {
-db.query('INSERT INTO czynnosci SET idklienta = ?, idkierowcy = ?, idkategori = ?, data_planowana = ?, data_rozpoczecia = ?, data_zakonczenia = ?, stan = ?, opis = ?',
-[req.body.idklienta, req.body.idkierowcy, req.body.idkategori, req.body.data_planowana, req.body.data_rozpoczecia, req.body.data_zakonczenia, req.body.stan, req.body.opis], function (err, info) {
+db.query('INSERT INTO czynnosci SET tytul = ?, idklienta = ?, idkierowcy = ?, idkategori = ?, data_planowana = ?, data_rozpoczecia = ?, stan = ?, opis = ?',
+[req.body.tytul, req.body.idklienta, req.body.idkierowcy, req.body.idkategori, req.body.data_planowana, req.body.data_rozpoczecia, req.body.stan, req.body.opis], function (err, info) {
 if (err) return next(err);
 console.log(' – zadanie dodane z id %s', info.insertId);
 res.redirect('/aktualneZadania');
