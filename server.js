@@ -242,7 +242,7 @@ wsServer.on('request', function(request) {
             switch (receivedJSON.task) {
             case 'log_me_in':
             	sentJSON.task = "log_me_in";
-            	db.query('SELECT idkierowcy FROM admin WHERE login = ? AND haslo = ?',[receivedJSON.login, md5(receivedJSON.haslo)], function (err, result) {
+            	db.query('SELECT idkierowcy FROM admin WHERE login = ? AND haslo = ?',[receivedJSON.login, md5(receivedJSON.password)], function (err, result) {
 				if (err) {
 					console.log('Błąd zapytania do bazy danych: ' + err);
 					sentJSON.success = false;
@@ -250,7 +250,7 @@ wsServer.on('request', function(request) {
 					}
 				else if (JSON.stringify(result) === '[]') {
 					console.log('Autoryzacja uzytkownika o loginie ' + receivedJSON.login + ' nie udała się.');
-					sentJSON.succes = false;
+					sentJSON.success = false;
 					connection.sendUTF(JSON.stringify(sentJSON));
 					}
 					else {
