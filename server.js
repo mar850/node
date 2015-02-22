@@ -261,7 +261,7 @@ wsServer.on('request', function(request) {
 				switch (receivedJSON.state) {
 					case 'actual':
 						sentJSON.state = 'actual'; //nazwa zadania, adresy
-						db.query('SELECT idczynnosci,firma,data_rozpoczecia,,adres,miasto,opis FROM czynnosci INNER JOIN klienci ON czynnosci.idklienta=klienci.idklienta WHERE idkierowcy = ? AND data_zakonczenia IS NULL',
+						db.query('SELECT idczynnosci,firma,data_rozpoczecia,adres,miasto,opis FROM czynnosci INNER JOIN klienci ON czynnosci.idklienta=klienci.idklienta WHERE idkierowcy = ? AND data_zakonczenia IS NULL',
 						[receivedJSON.idkierowcy], function (err, result) {
 						if (err) {
 							console.log('Błąd zapytania do bazy danych: ' + err);
@@ -290,7 +290,7 @@ wsServer.on('request', function(request) {
 						
 					case 'planning':
 						sentJSON.state = 'planning';
-						db.query('SELECT idczynnosci,firma,data_planowana,adres,miasto,opis FROM czynnosci INNER JOIN klienci ON czynnosci.idklienta=klienci.idklienta WHERE idkierowcy = ? AND data_planowana > CURDATE()',
+						db.query('SELECT idczynnosci,tytul,firma,data_planowana,adres,miasto,opis FROM czynnosci INNER JOIN klienci ON czynnosci.idklienta=klienci.idklienta WHERE idkierowcy = ? AND data_planowana > CURDATE()',
 						[receivedJSON.idkierowcy], function (err, result) {
 						if (err) {
 							console.log('Błąd zapytania do bazy danych: ' + err);
@@ -345,13 +345,21 @@ wsServer.on('request', function(request) {
 							}					
 						});
 						break;
+						
+					default:
+						console.log("Otrzymano nieznany komunikat:", receivedJSON.task, " state:", receivedJSON.state);
+						sentJSON.task = 'undefined';
+						sentJSON.success = false;
+						connection.sendUTF(JSON.stringify(sentJSON));
 				}
 				break;
+				
 				
 			default:
 				console.log("Otrzymano nieznany komunikat:", receivedJSON.task);
 				sentJSON.task = 'undefined';
 				sentJSON.success = false;
+				connection.sendUTF(JSON.stringify(sentJSON));
             }
         }
         else if (message.type === 'binary') {
