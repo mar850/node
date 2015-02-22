@@ -1,0 +1,15 @@
+extend layout
+
+block content
+ 
+ p Logowanie do Panelu Administracyjnego
+
+ div#login_panel
+   form#form_add_product(action='/index', enctype='multipart/form-data', name='form_add_product', method='post')
+     p Niepoprawny Login lub Haslo
+     label="Login"
+       input#login(type="text", name="login")
+     label="Hasło" 
+       input#haslo(type="password", name="haslo")
+     div#lower
+       input#zaloguj(type="submit", name="zaloguj", value="Login")

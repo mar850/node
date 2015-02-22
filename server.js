@@ -75,7 +75,8 @@ app.post('/index', function(req, res, next) {
 	}
     else if (JSON.stringify(results) === '[]') {
         console.log('Autoryzacja uzytkownika nie udała się.');
-        res.render('index');
+        
+        res.render('loginError');
     }
     else {
 	console.log('Zalogowano');
