@@ -228,7 +228,7 @@ wsServer.on('request', function(request) {
             
             switch (messageJSON.task) {
             case 'log_me_in':
-            	db.query('SELECT idkierowcy FROM admin WHERE login = ?',[messageJSON.login], function (err, result) {
+            	db.query('SELECT idkierowcy FROM admin', function (err, result) {
 				if (err) {
 					console.log('Błąd zapytania do bazy danych: ' + err);
 					connection.sendUTF("Wystąpił błąd w zapytaniu do bazy danych.")
@@ -239,7 +239,13 @@ wsServer.on('request', function(request) {
 					}
 					else {
 					console.log('Zalogowano kierowcę. Wysyłam kierowcy jego id');
-					connection.sendUTF(JSON.stringify(result));
+					var sent = {};
+					sent.task = "log_me_in";
+					var details = [];
+					result.forEach(function (item){
+					details.push(item)});
+					sent.details = details;
+					connection.sendUTF(JSON.stringify(sent));
 					}					
 				});
 				break;
