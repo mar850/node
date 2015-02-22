@@ -209,7 +209,9 @@ wsServer.on('request', function(request) {
 					}
 					else {
 					console.log('Zalogowano kierowcę. Wysyłam kierowcy jego id');
-					connection.sendUTF(JSON.stringify(result));
+					var send = result;
+					send.push({'task':'log_me_in'});
+					connection.sendUTF(JSON.stringify(send));
 					}					
 				});
 				break;
