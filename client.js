@@ -32,7 +32,7 @@ client.on('connect', function(connection) {
     }
     function sendJSON() {
     	if (connection.connected) {
-    		connection.sendUTF('{"task":"log_me_in","login":"admin","idkierowcy":"1"}');
+    		connection.sendUTF('{"task":"log_me_in","login":"admin","haslo":"admin","idkierowcy":"1"}');
     		setTimeout(sendJSON, 1000);
     	}
     }
