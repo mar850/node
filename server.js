@@ -71,20 +71,9 @@ res.render('login');
 app.post('/index', function(req, res, next) {
    db.query('SELECT cout(*) FROM admin WHERE login = ?, haslo = ?',
 [req.body.login, req.body.haslo], function (err, results) {
-if (err) {
-					console.log('Błąd zapytania do bazy danych: ' + err);
-					connection.sendUTF("Wystąpił błąd w zapytaniu do bazy danych.")
-					}
-				else if (results === '[]') {
-					console.log('Autoryzacja uzytkownika o loginie ' + messageJSON.login + ' nie udała się.');
-					connection.sendUTF("Błędne dane do logowania.");
-					}
-					else {
-					console.log('Zalogowano kierowcę. Wysyłam kierowcy jego id');
-					var send = result;
-					send.push({'task':'log_me_in'});
-					connection.sendUTF(JSON.stringify(send));
-					}
+
+});
+res.redirect('/panel');
 });
 // zwracanie strony z panelem administratora
 app.get('/panel', function(req, res, next) {
