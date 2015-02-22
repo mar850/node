@@ -69,11 +69,20 @@ res.render('login');
 // przesylamy dane i sprawdzamy czy urzytkownik ktora chce sie zalogować jest w naszej bazie danych
 // funkcja sesji i sprawdzania urzytkownika w trakcie implementacji
 app.post('/index', function(req, res, next) {
-   db.query('SELECT cout(*) FROM admin WHERE login = ?, haslo = ?',
-[req.body.login, req.body.haslo], function (err, results) {
-
+   db.query('SELECT idkierowcy FROM admin WHERE login = ? AND haslo = ?',[req.body.login, md5(req.body.haslo)], function (err, results) {
+    if (err) {
+	console.log('Błąd zapytania do bazy danych: ' + err);
+	}
+    else if (JSON.stringify(results) === '[]') {
+        console.log('Autoryzacja uzytkownika nie udała się.');
+        res.render('index');
+    }
+    else {
+	console.log('Zalogowano');
+        res.render('panel');
+        }
 });
-res.redirect('/panel');
+
 });
 // zwracanie strony z panelem administratora
 app.get('/panel', function(req, res, next) {
