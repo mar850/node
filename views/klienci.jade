@@ -73,16 +73,18 @@ html
               td
                 label
                   input#button_add_task(type='submit', name='button_add_task', value='dodaj klienta')
-            if (items.length)
-            each klienci in items
-              #box
-                .box-top Klient: #{klienci.idklienta}
-                .box-panel
-                  h3 #{klienci.imie} #{klienci.nazwisko} <br />
-                  h3 #{klienci.firma}<br />
-                  h3 #{klienci.adres}<br />
-                  h3 #{klienci.kod_poczt} #{klienci.miasto} <br />
-                  h3 Województwo #{klienci.wojew}, #{klienci.kraj} <br />
-            else
-              p Brak zadañ do wyœwietlenia
+          if (items.length)
+          each klienci in items
+            #box
+              .box-top Klient: #{klienci.idklienta}
+              .box-panel
+                h3 #{klienci.imie} #{klienci.nazwisko} <br />
+                h3 #{klienci.firma}<br />
+                h3 #{klienci.adres}<br />
+                h3 #{klienci.kod_poczt} #{klienci.miasto} <br />
+                h3 Województwo #{klienci.wojew}, #{klienci.kraj} <br />
+                  form#form_del_klient(action='/usuwanieKlienta/#{klienci.idklienta}', enctype='multipart/form-data', name='form_del_klient', method='post')
+                    input#button_del_klient(type='submit', name='button_del_klient', value='usuñ')
+          else
+            p Brak zadañ do wyœwietlenia
 

@@ -37,6 +37,11 @@ html
         form#form_add_product(action='/new_task', enctype='multipart/form-data', name='form_add_product', method='post')
           table(width='90%', border='0', cellspacing='0', cellpadding='6')
             tr
+              td Tytu³
+              td
+                label
+                  textarea#tytul(name='tytul', cols='64', rows='5')
+            tr
               td Nazwa klienta
               td
                 select#idklienta(name='idklienta')

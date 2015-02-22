@@ -140,6 +140,17 @@ res.redirect('/klienci');
 });
 });
 
+app.post('/usuwanieKlienta/:idklienta', function (req, res, next) {
+db.query('DELETE FROM klienci WHERE idklienta = ?',
+[req.params.idklienta], function (err, info) {
+if (err) return next(err);
+console.log(' – klient usuniety z id %s', info.insertId);
+res.redirect('/klienci');
+});
+});
+
+
+
 app.get('/kierowcy', function(req, res, next) {
   db.query('SELECT * FROM kierowcy', function (err, results) {
 res.render('kierowcy', { title: 'Express', items: results });
