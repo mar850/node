@@ -45,14 +45,14 @@ html
               td
                 label
                   input#button_add_task(type='submit', name='button_add_task', value='dodaj kategorie')
-            
-            if (items.length)
-            each kategorie in items
-              #box
-                .box-top Kategoria: #{kategorie.idkat}
-                .box-panel
-                  h3 #{kategorie.nazwakat} <br />
-                  form#form_del_product(action='/usuwanie', enctype='multipart/form-data', name='form_del_product', method='post')
-                   input#button_del_task(type='submit', name='button_del_task', value='usuñ')
-            else
-              p Brak zadañ do wyœwietlenia
+        
+          if (items.length)
+          each kategorie in items
+            #box
+              .box-top Kategoria: #{kategorie.idkat}
+              .box-panel
+                h3 #{kategorie.nazwakat} <br />  
+                  form#form_del_product(action='/usuwanie/#{kategorie.idkat}', enctype='multipart/form-data', name='form_del_product', method='post')
+                    input#button_del_task(type='submit', name='button_del_task', value='usuñ')
+          else
+            p Brak zadañ do wyœwietlenia
