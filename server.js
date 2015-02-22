@@ -265,9 +265,10 @@ wsServer.on('request', function(request) {
 					}					
 				});
 				break;
+				
 			case 'actual_task': //id zadania, nazwa klienta
 				sentJSON.task = 'actual_task';
-				db.query('SELECT idczynnosci,firma,data_rozpoczecia,adres,miasto,opis FROM czynnosci INNER JOIN klienci ON czynnosci.idklienta=klienci.idklienta WHERE idkierowcy = ? AND data_zakonczenia IS NULL',
+				db.query('SELECT idczynnosci,tytul,firma,data_rozpoczecia,adres,miasto,opis FROM czynnosci INNER JOIN klienci ON czynnosci.idklienta=klienci.idklienta WHERE idkierowcy = ? AND data_zakonczenia IS NULL',
 				[receivedJSON.idkierowcy], function (err, result) {
 				if (err) {
 					console.log('Błąd zapytania do bazy danych: ' + err);
