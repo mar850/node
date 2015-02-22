@@ -22,11 +22,11 @@ html
           li
             a(href='new_task') Dodaj zadanie
           li
-            a(href='kierowcy') Dodaj kierowcê
+            a(href='kierowcy') Dodaj kierowce
           li
             a(href='klienci') Dodaj klienta
           li
-            a(href='kategorie') Dodaj kategoriê
+            a(href='kategorie') Dodaj kategorie
           li
             a(href='#') Historia zadaÅ„
           li
@@ -57,7 +57,7 @@ html
               td 
                 input#miasto(name='miasto', type='text')
             tr
-              td Województwo:
+              td Wojewodztwo:
               td 
                 input#wojew(name='wojew', type='text')
             tr
@@ -82,9 +82,9 @@ html
                 h3 #{klienci.firma}<br />
                 h3 #{klienci.adres}<br />
                 h3 #{klienci.kod_poczt} #{klienci.miasto} <br />
-                h3 Województwo #{klienci.wojew}, #{klienci.kraj} <br />
+                h3 Wojewodztwo #{klienci.wojew}, #{klienci.kraj} <br />
                   form#form_del_klient(action='/usuwanieKlienta/#{klienci.idklienta}', enctype='multipart/form-data', name='form_del_klient', method='post')
-                    input#button_del_klient(type='submit', name='button_del_klient', value='usuñ')
+                    input#button_del_klient(type='submit', name='button_del_klient', value='usuÅ„')
           else
             p Brak zadañ do wyœwietlenia
 

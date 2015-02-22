@@ -22,11 +22,11 @@ html
           li
             a(href='new_task') Dodaj zadanie
           li
-            a(href='kierowcy') Dodaj kierowcê
+            a(href='kierowcy') Dodaj kierowce
           li
             a(href='klienci') Dodaj klienta
           li
-            a(href='kategorie') Dodaj kategoriê
+            a(href='kategorie') Dodaj kategorie
           li
             a(href='#') Historia zadaÅ„
           li
@@ -53,7 +53,7 @@ html
               td 
                 input#miasto(name='miasto', type='text')
             tr
-              td Województwo:
+              td Wojewodztwo:
               td 
                 input#wojew(name='wojew', type='text')
             tr
@@ -68,7 +68,7 @@ html
               td
               td
                 label
-                  input#button_add_task(type='submit', name='button_add_task', value='dodaj kierowcê')
+                  input#button_add_task(type='submit', name='button_add_task', value='dodaj kierowce')
           if (items.length)
           each kierowcy in items
             #box
@@ -77,8 +77,8 @@ html
                 h3 #{kierowcy.imie} #{kierowcy.nazwisko} <br />
                 h3 #{kierowcy.adres}<br />
                 h3 #{kierowcy.kod_poczt} #{kierowcy.miasto} <br />
-                h3 Województwo #{kierowcy.wojew}, #{kierowcy.kraj} <br />
+                h3 Wojewodztwo #{kierowcy.wojew}, #{kierowcy.kraj} <br />
                   form#form_del_kierowcy(action='/usuwanieKierowcy/#{kierowcy.idkierowcy}', enctype='multipart/form-data', name='form_del_kierowcy', method='post')
-                    input#button_del_kierowcy(type='submit', name='button_del_kierowcy', value='usuñ')
+                    input#button_del_kierowcy(type='submit', name='button_del_kierowcy', value='usuÅ„')
           else
             p Brak zadañ do wyœwietlenia
